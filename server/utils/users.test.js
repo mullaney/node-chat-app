@@ -27,6 +27,18 @@ describe('Users', () => {
     expect(users.users.length).toBe(4);
   });
 
+  it('should not add new user with duplicate name in same room', () => {
+    var user = {
+      id: '0',
+      name: 'Kevin',
+      room: 'irc'
+    };
+    var res = users.addUser(user.id, user.name, user.room);
+    expect(res).toNotExist();
+    expect(users.users.length).toBe(3);
+  });
+
+
   it('should remove a user', () => {
     var res = users.removeUser('123');
     expect(res).toEqual({

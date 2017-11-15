@@ -24,7 +24,10 @@ io.on('connection', (socket) => {
 
     socket.join(params.room);
     users.removeUser(socket.id);
-    users.addUser(socket.id, params.name, params.room);
+    var res = users.addUser(socket.id, params.name, params.room);
+    if (!res) {
+      return callback('You must use a unique name.');
+    }
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));

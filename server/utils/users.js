@@ -1,10 +1,3 @@
-// const _ = require('lodash');
-
-// addUser(id, name, room)
-// removeUser(id)
-// getUser(id)
-// getUserList(room)
-// lowercase rooms
 // reject new users with same name as existing users
 // list of current rooms
 
@@ -15,6 +8,10 @@ class Users {
 
   addUser(id, name, room) {
     room = room.toLowerCase();
+    var currentUserList = this.getUserList(room);
+    if (currentUserList.filter((userName) => userName === name ).length > 0) {
+      return undefined;
+    }
     var user = {id, name, room};
     this.users.push(user);
     return user;
