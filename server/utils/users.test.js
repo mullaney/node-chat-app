@@ -6,19 +6,9 @@ describe('Users', () => {
 
   beforeEach(() => {
     users = new Users();
-    users.users = [{
-      id: '123',
-      name: 'Kevin',
-      room: 'IRC'
-    }, {
-      id: '456',
-      name: 'Paul',
-      room: 'CRI'
-    }, {
-      id: '789',
-      name: 'Terry',
-      room: 'IRC'
-    }]
+    users.addUser('123', 'Kevin', 'irc');
+    users.addUser('456', 'Paul', 'cri');
+    users.addUser('789', 'Terry', 'irc');
   });
 
   it('should add new user', () => {
@@ -28,8 +18,12 @@ describe('Users', () => {
       room: 'IRC'
     };
     var res = users.addUser(user.id, user.name, user.room);
-    expect(res).toEqual(user);
-    expect(users.users[3]).toEqual(user);
+    expect(res.id).toBe(user.id);
+    expect(res.name).toBe(user.name);
+    expect(res.room).toBe(user.room.toLowerCase());
+    expect(users.users[3].id).toBe(user.id);
+    expect(users.users[3].name).toBe(user.name);
+    expect(users.users[3].room).toBe(user.room.toLowerCase());
     expect(users.users.length).toBe(4);
   });
 
@@ -38,12 +32,12 @@ describe('Users', () => {
     expect(res).toEqual({
       id: '123',
       name: 'Kevin',
-      room: 'IRC'
+      room: 'irc'
     });
     expect(users.users[0]).toEqual({
       id: '456',
       name: 'Paul',
-      room: 'CRI'
+      room: 'cri'
     });
     expect(users.users.length).toBe(2);
   });
@@ -59,7 +53,7 @@ describe('Users', () => {
     expect(res).toEqual({
       id: '123',
       name: 'Kevin',
-      room: 'IRC'
+      room: 'irc'
     });
     expect(users.users.length).toBe(3);
   });
@@ -70,7 +64,7 @@ describe('Users', () => {
   })
 
   it('should return a list of users in a particular room', () => {
-    var res = users.getUserList('IRC');
+    var res = users.getUserList('irc');
     expect(res.length).toBe(2);
     expect(res).toEqual(['Kevin', 'Terry']);
   });
